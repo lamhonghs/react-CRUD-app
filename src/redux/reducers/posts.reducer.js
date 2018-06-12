@@ -1,33 +1,34 @@
 import {
-  POSTS_GET_LIST,
+    POSTS_GET_LIST,
+    POSTS_GET_DETAILS
 } from '../actions/posts/posts.actionsTypes';
 
-export const posts = (
-  state = {
-    isFetching: false,
+const initState = {
     error: null,
-    posts: []
-  },
-  action
-) => {
-  switch (action.type) {
-    case POSTS_GET_LIST.START:
-      return Object.assign({}, state, {
-        isFetching: true,
-      });
-    case POSTS_GET_LIST.SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: true,
-        posts: action.response
-      });
-    case POSTS_GET_LIST.ERROR:
-      return Object.assign({}, state, {
-        isFetching: false,
-        false: false,
-        items: [],
-        error: action.error
-      });
-    default:
-      return state
-  }
+    posts: [],
+    postsDetails: {}
+};
+
+export const posts = (state = initState,
+                      action) => {
+    switch (action.type) {
+        case POSTS_GET_LIST.SUCCESS:
+            return Object.assign({}, state, {
+                posts: action.payload
+            });
+        case POSTS_GET_LIST.ERROR:
+            return Object.assign({}, state, {
+                error: action.error
+            });
+        case POSTS_GET_DETAILS.SUCCESS:
+            return Object.assign({}, state, {
+                postsDetails: action.payload
+            });
+        case POSTS_GET_DETAILS.ERROR:
+            return Object.assign({}, state, {
+                error: action.error
+            });
+        default:
+            return initState
+    }
 };
