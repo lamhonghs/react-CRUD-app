@@ -11,28 +11,27 @@ import {
 } from '../actions/posts/posts.actions';
 
 export const getPostsList = (action$, ...rest) => {
-    const options = {
-        method: 'GET',
-        url: '/posts',
-    };
-    const serviceGetPostsList = Observable.fromPromise(
-        restClient(options)
-            .then(
-                (rp) => {
-                    return rp;
-                },
-                ({response}) => {
-                    return {
-                        status: response.status,
-                        message: response.statusText
-                    };
-                }
-            )
-            .catch(err => err)
-    );
+
+    const serviceGetPostsList = () => {
+        return Observable.fromPromise(
+            restClient.get('/posts')
+                .then(
+                    (rp) => {
+                        return rp;
+                    },
+                    ({response}) => {
+                        return {
+                            status: response.status,
+                            message: response.statusText
+                        };
+                    }
+                )
+                .catch(err => err)
+        );
+    }
     return action$.ofType(POSTS_GET_LIST.START)
         .switchMap((action) => {
-            return serviceGetPostsList
+            return serviceGetPostsList()
                 .map((response) => {
                     if (response.status === 500) {
                         throw response.message;
@@ -47,29 +46,26 @@ export const getPostsList = (action$, ...rest) => {
 };
 
 export const getPostsDetail = (action$, ...rest) => {
-    const options = {
-        method: 'GET',
-        url: `/posts/${action$.payload}`,
+    const serviceGetPostsDetail =  (url) => {
+        return Observable.fromPromise(
+            restClient.get(url)
+                .then(
+                    (rp) => {
+                        return rp;
+                    },
+                    ({response}) => {
+                        return {
+                            status: response.status,
+                            message: response.statusText
+                        };
+                    }
+                )
+                .catch(err => err)
+        );
     };
-
-    const serviceGetPostsDetail = Observable.fromPromise(
-        restClient(options)
-            .then(
-                (rp) => {
-                    return rp;
-                },
-                ({response}) => {
-                    return {
-                        status: response.status,
-                        message: response.statusText
-                    };
-                }
-            )
-            .catch(err => err)
-    );
     return action$.ofType(POSTS_GET_DETAILS.START)
         .switchMap((action) => {
-            return serviceGetPostsDetail
+            return serviceGetPostsDetail(`/posts/${action.payload}`)
                 .map((response) => {
                     if (response.status === 500) {
                         throw response.message;

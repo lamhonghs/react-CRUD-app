@@ -15,9 +15,7 @@ class PostsDetails extends PureComponent {
         const {
             match: {params: {id}},
         } = this.props;
-        this.props.detailPostStart({
-            payload: id
-        });
+        this.props.detailPostStart(id);
     }
 
     render() {
@@ -37,8 +35,8 @@ class PostsDetails extends PureComponent {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        detailPostStart: () => {
-            dispatch(detailPost.start());
+        detailPostStart: (payload) => {
+            dispatch(detailPost.start(payload));
         },
     };
 };

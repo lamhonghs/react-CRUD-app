@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {createStore, applyMiddleware, compose} from 'redux';
 import {createEpicMiddleware} from 'redux-observable';
 import {combineEpics} from 'redux-observable';
@@ -23,6 +23,7 @@ import {
 
 const rootEpic = combineEpics(
     getPostsList,
+    getPostsDetail,
 );
 export const rootReducer = combineReducers({
     posts,
@@ -44,10 +45,10 @@ class App extends PureComponent {
                 <div className="App">
                     <Header/>
                     <Router>
-                        <div>
+                        <Switch>
                             <Route exact path="/" component={PostsList}/>
                             <Route path="/posts/:id" component={PostsDetails}/>
-                        </div>
+                        </Switch>
                     </Router>
                 </div>
             </Provider>
