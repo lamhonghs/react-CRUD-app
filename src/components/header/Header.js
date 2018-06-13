@@ -1,9 +1,15 @@
 import React, { PureComponent } from 'react';
+import {
+  push
+} from 'react-router-redux';
+import { connect } from 'react-redux';
 import './Header.css';
+import { postClearCache } from '../../redux/actions/posts/posts.actions';
 
 class Header extends PureComponent {
   newPostClick = () => {
-    alert('click');
+    this.props.postClearCache();
+    this.props.goToCreatePage();
   }
   render() {
     return (
@@ -16,4 +22,15 @@ class Header extends PureComponent {
   }
 }
 
-export default Header;
+export default connect(null, (dispatch) => {
+  return {
+    goToCreatePage: () => {
+      dispatch(push({
+        pathname: '/posts/create'
+      }))
+    },
+    postClearCache: () => {
+      dispatch(postClearCache());
+    },
+  }
+})(Header);

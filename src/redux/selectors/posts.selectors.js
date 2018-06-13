@@ -10,4 +10,7 @@ const generateSelector = key => createSelector(
 export const errorSelector = generateSelector('error');
 export const postsListSelector = generateSelector('posts');
 export const postsDetailSelector = generateSelector('postsDetails');
-export const loadingSelector = createLoadingSelector(['POSTS_GET_LIST']);
+export const loadingSelector = createLoadingSelector(['POSTS_GET_LIST', 'POSTS_CREATE_LIST',
+  'POSTS_GET_DETAIL', 'POSTS_DELETE', 'POSTS_UPDATE']);
+export const isSuccessSelector = generateSelector('isSuccess');
+export const initialValuesSelector = generateSelector('postsDetails');
