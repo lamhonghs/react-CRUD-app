@@ -43,37 +43,49 @@ class PostsList extends PureComponent {
     this.props.goEditPage(id);
   }
 
-  render() {
+  renderTable = () => {
     const {
       posts,
+    } = this.props;
+    return (
+      <table className="table table-striped bordered">
+        {
+          posts.map(p => {
+            return (
+              <tr key={ p.id }>
+                <td>
+                  <Link to={ `posts/${p.id}` }> { p.title } </Link>
+                </td>
+                <td>
+                  <button onClick={ () => this.deletePost(p.id) } style={ {
+                    marginRight: 30,
+                    marginLeft: 30,
+                  } }>
+                    Delete
+                  </button>
+                  <button onClick={ () => this.goEditPage(p.id) } style={ {
+                    marginRight: 30
+                  } }>
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            )
+          })
+        }
+      </table>
+    )
+  }
+
+  render() {
+    const {
       isFetchingPosts,
       error,
     } = this.props;
     if (isFetchingPosts) return <div>... loading .... </div>;
     if (error) return <div>... { error } .... </div>;
     return (
-      <ul>
-        {
-          posts.map(p => {
-            return (
-              <li key={ p.id }>
-                <Link to={ `posts/${p.id}` }> { p.title } </Link>
-                <button onClick={ () => this.deletePost(p.id) } style={ {
-                  marginRight: 30,
-                  marginLeft: 30,
-                } }>
-                  Delete
-                </button>
-                <button onClick={ () => this.goEditPage(p.id) } style={ {
-                  marginRight: 30
-                } }>
-                  Edit
-                </button>
-              </li>
-            )
-          })
-        }
-      </ul>
+      this.renderTable()
     );
   }
 }

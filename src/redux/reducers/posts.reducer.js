@@ -9,7 +9,7 @@ import {
 const initState = {
   error: null,
   posts: [],
-  postsDetails: null,
+  postsDetails: {},
   isSuccess: false,
 };
 
@@ -31,6 +31,12 @@ export const posts = (state = initState,
     case POSTS_GET_DETAILS.ERROR:
       return Object.assign({}, state, {
         error: action.error
+      });
+    case POSTS_CREATE.START:
+    case POSTS_DELETE.START:
+    case POSTS_UPDATE.START:
+      return Object.assign({}, state, {
+        isSuccess: false
       });
     case POSTS_CREATE.SUCCESS:
     case POSTS_DELETE.SUCCESS:

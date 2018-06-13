@@ -11,11 +11,19 @@ class Header extends PureComponent {
     this.props.postClearCache();
     this.props.goToCreatePage();
   }
+
+  postListClick = () => {
+    this.props.postClearCache();
+    this.props.goToListPage();
+  }
   render() {
     return (
       <header className="header-wrapper">
         <button className="header-button-action" onClick={this.newPostClick}>
           New Post
+        </button>
+        <button className="header-button-action" onClick={this.postListClick}>
+          Posts List
         </button>
       </header>
     );
@@ -27,6 +35,11 @@ export default connect(null, (dispatch) => {
     goToCreatePage: () => {
       dispatch(push({
         pathname: '/posts/create'
+      }))
+    },
+    goToListPage: () => {
+      dispatch(push({
+        pathname: '/'
       }))
     },
     postClearCache: () => {

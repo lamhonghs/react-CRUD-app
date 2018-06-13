@@ -19,11 +19,9 @@ import {
 
 
 class PostsCreate extends PureComponent {
-  isEditMode = this.props.match && this.props.match.params &&
-    typeof this.props.match.params.id !== 'undefined';
 
   componentDidMount() {
-    if (this.isEditMode) {
+    if (this.isEditMode()) {
       this.props.detailPostStart(this.props.match.params.id);
     }
   }
@@ -37,7 +35,10 @@ class PostsCreate extends PureComponent {
   componentWillUnmount() {
     this.props.postClearCache();
   }
-
+  isEditMode = () => {
+    return this.props.match && this.props.match.params &&
+      typeof this.props.match.params.id !== 'undefined';
+  }
   renderField = ({ input, label, type, meta: { touched, error } }) => {
     return (
       <div>
@@ -50,7 +51,7 @@ class PostsCreate extends PureComponent {
     );
   };
   createPost = (formValues) => {
-    if (this.isEditMode) {
+    if (this.isEditMode()) {
       const payload = {
         id: this.props.match.params.id,
         ...formValues,
@@ -70,7 +71,7 @@ class PostsCreate extends PureComponent {
     }
     return (
       <div>
-        <form onSubmit={ handleSubmit(this.createPost) }>
+        <form onSubmit={ handleSubmit(this.createPost) } className="form">
           <Field
             name="title"
             type="text"
@@ -86,7 +87,7 @@ class PostsCreate extends PureComponent {
           { error && <strong>{ error }</strong> }
           <div>
             <button type="submit" disabled={ pristine || submitting }>
-              { this.isEditMode ? 'UPDATE' : 'CREATE' }
+              { this.isEditMode() ? 'UPDATE' : 'CREATE' }
             </button>
           </div>
         </form>
